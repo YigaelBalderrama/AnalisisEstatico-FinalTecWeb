@@ -38,11 +38,28 @@ namespace SimpsonApp.Controllers
         }
 
         [HttpGet("{charID:int}", Name = "GetPharse")]
-        public async Task<ActionResult<Phrase>> GetVideogameAsync(int charID, int PharaseId)
+        public async Task<ActionResult<Phrase>> GetPhraseAsync(int charID, int PharaseId)
         {
             try
             {
                 return Ok(await _phraseService.GetphraseAsync(charID, PharaseId));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{phareID:int}")]
+        public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characID, int phraseID, [FromBody] Phrase Frase)
+        {
+            try
+            {
+                return Ok(await _phraseService.UpdatePhraseAsync(characID, phraseID, Frase));
             }
             catch (NotFoundOperationException ex)
             {

@@ -17,5 +17,6 @@ namespace SimpsonApp.Data.Repository
         ///FRASES
         Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charID);
         Task<PhraseEntity>GetPhraseAsync(int PharaseId);
+        Task<bool> UpdatePhraseAsync(PhraseEntity frase);
     }
 }

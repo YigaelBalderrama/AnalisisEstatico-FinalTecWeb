@@ -1,11 +1,9 @@
-﻿using SimpsonApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SimpsonApp.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SimpsonApp.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace SimpsonApp.Data.Repository
 {
@@ -84,6 +82,14 @@ namespace SimpsonApp.Data.Repository
             query = query.AsNoTracking();
             var frase = await query.SingleOrDefaultAsync(v => v.ID == PharaseId);
             return frase;
+        }
+
+        public async Task<bool> UpdatePhraseAsync(PhraseEntity frase)
+        {
+            var frasetoupdate = await _dbContext.Phrases.FirstOrDefaultAsync(v => v.ID == frase.ID);
+            frasetoupdate.Content = frase.Content ?? frasetoupdate.Content;
+            frasetoupdate.Popularity= frase.Popularity ?? frasetoupdate.Popularity;
+            return true;
         }
     }
 }

@@ -55,5 +55,18 @@ namespace SimpsonApp.Services
             }
             return _mapper.Map<Phrase>(frase);
         }
+
+        public async Task<bool> UpdatePhraseAsync(int characID, int phraseID, Phrase Frase)
+        {
+            await GetphraseAsync(characID,phraseID);
+            Frase.ID = phraseID;
+            await _libraryRepository.UpdatePhraseAsync(_mapper.Map<PhraseEntity>(Frase));
+            var saveRestul = await _libraryRepository.SaveChangesAsync();
+            if (!saveRestul)
+            {
+                throw new Exception("Error while saving.");
+            }
+            return true;
+        }
     }
 }
