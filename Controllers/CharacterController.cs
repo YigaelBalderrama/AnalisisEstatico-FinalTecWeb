@@ -33,6 +33,44 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something go Wrong {ex.Message}");
             }
         }
+        [HttpGet("{charId:int}", Name = "GetCharacter")]
+        public async Task<ActionResult<Character>> GetCompanyAsync(int charId, bool showPhrases = false)
+        {
+            try
+            {
+                return await _characterService.GetCharacterAsync(charId, showPhrases);
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message); ;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+        [HttpPut("{charId:int}")]
+       public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                { 
+                    return BadRequest();   
+                }
+                return Ok(await _characterService.UpdateCharacter(charId , c));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+
+
 
     }
 }

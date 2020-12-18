@@ -9,7 +9,10 @@ namespace SimpsonApp.Data.Repository
 {
     public interface ILibraryRepository
     {
-       Task <IEnumerable<CharacterEntity>>GetCharacterAsync(string orderBy, bool showPrase);
+        Task<IEnumerable<CharacterEntity>> GetCharactersAsync(string orderBy, bool showPrase);
+        Task<CharacterEntity> GetCharacterAsync(int charId, bool showPhrases = false);
+        bool UpdateCharacter(CharacterEntity charac);
+        Task<bool> SaveChangesAsync();
 
     }
 }

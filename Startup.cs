@@ -29,7 +29,13 @@ namespace SimpsonApp
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IPhraseService, PhraseService>();
             services.AddTransient<ICharacterService, CharacterService>();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
