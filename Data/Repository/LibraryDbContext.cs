@@ -11,7 +11,7 @@ namespace SimpsonApp.Data.Repository
     public  class LibraryDbContext:IdentityDbContext
     {
         public DbSet<CharacterEntity> Characters { get; set; }
-        public DbSet<PhraseEntity> PhraseS { get; set; }
+        public DbSet<PhraseEntity> Phrases { get; set; }
 
         public LibraryDbContext(DbContextOptions<LibraryDbContext> options)
             : base(options)

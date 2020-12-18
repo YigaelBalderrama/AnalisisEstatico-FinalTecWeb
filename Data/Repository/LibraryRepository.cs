@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpsonApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SimpsonApp.Data.Repository
 {
@@ -64,6 +65,25 @@ namespace SimpsonApp.Data.Repository
                 throw ex;
             }
 
+        }
+
+        public async Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charID)
+        {
+            IQueryable<PhraseEntity> query = _dbContext.Phrases;
+            query = query.Where(v => v.Character.ID == charID);
+            query = query.Include(v => v.Character);
+            query = query.AsNoTracking();
+
+            return await query.ToArrayAsync(); 
+        }
+
+        public async Task<PhraseEntity> GetPhraseAsync(int PharaseId)
+        {
+            IQueryable<PhraseEntity> query = _dbContext.Phrases;
+            query = query.Include(v => v.Character);
+            query = query.AsNoTracking();
+            var frase = await query.SingleOrDefaultAsync(v => v.ID == PharaseId);
+            return frase;
         }
     }
 }
