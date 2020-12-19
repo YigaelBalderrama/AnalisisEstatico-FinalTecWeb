@@ -68,5 +68,21 @@ namespace SimpsonApp.Services
             }
             return true;
         }
+
+        public async Task<Phrase> CreatePhraseAsync(int characID, Phrase frase)
+        {
+            await validateCharacter(characID);
+            var chrac = _mapper.Map<PhraseEntity>(frase);
+            _libraryRepository.CreatePhrase(chrac);
+            var saveResult = await _libraryRepository.SaveChangesAsync();
+            if (!saveResult)
+            {
+                throw new Exception("save error");
+            }
+
+            var modelToReturn = _mapper.Map<Phrase>(chrac);
+            modelToReturn.CharacterID = characID;
+            return modelToReturn;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace SimpsonApp.Services
     {
         Task<IEnumerable<Phrase>> getPhrases(int charID);
         Task<Phrase> GetphraseAsync(int charID, int PharaseId);
-
         Task<bool> UpdatePhraseAsync(int characID, int phraseID, Phrase Frase);
+        Task<Phrase> CreatePhraseAsync(int characID, Phrase frase);
     }
 }

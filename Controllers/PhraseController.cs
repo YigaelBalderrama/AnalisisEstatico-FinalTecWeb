@@ -70,6 +70,23 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        [HttpPost]
+        public async Task<ActionResult<Phrase>> CreateVideogameAsync(int chracID, [FromBody] Phrase phrase)
+        {
+            try
+            {
+                var phraseCreated = await _phraseService.CreatePhraseAsync(chracID, phrase);
+                return CreatedAtRoute("GetPhrase", new { characterId = chracID, phraseID = phraseCreated.ID }, phraseCreated);
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
 
     }
     

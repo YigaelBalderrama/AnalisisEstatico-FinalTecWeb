@@ -102,8 +102,16 @@ namespace SimpsonApp.Data.Repository
 
             var companyToDelete = await _dbContext.Characters.FirstOrDefaultAsync(c => c.ID == characId);
             _dbContext.Characters.Remove(companyToDelete);
-
             return true;
+        }
+
+        public void CreatePhrase(PhraseEntity frase)
+        {
+            if (frase.Character!= null)
+            {
+                _dbContext.Entry(frase.Character).State = EntityState.Unchanged;
+            }
+            _dbContext.Phrases.Add(frase);
         }
     }
 }
