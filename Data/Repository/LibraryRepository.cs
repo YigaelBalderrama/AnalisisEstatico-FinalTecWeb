@@ -91,5 +91,19 @@ namespace SimpsonApp.Data.Repository
             frasetoupdate.Popularity= frase.Popularity ?? frasetoupdate.Popularity;
             return true;
         }
+
+        public void CreateCharacter(CharacterEntity character)
+        {
+            _dbContext.Characters.Add(character);
+        }
+
+        public async Task<bool> DeleteCharacterAsync(int characId)
+        {
+
+            var companyToDelete = await _dbContext.Characters.FirstOrDefaultAsync(c => c.ID == characId);
+            _dbContext.Characters.Remove(companyToDelete);
+
+            return true;
+        }
     }
 }

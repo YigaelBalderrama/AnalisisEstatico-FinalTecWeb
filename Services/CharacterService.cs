@@ -60,5 +60,51 @@ namespace SimpsonApp.Services
             }
             return c;
         }
+
+        public async Task<Character> CreateCharacterAsync(Character charac)
+        {
+            var characEntity = _mapper.Map<CharacterEntity>(charac);
+            _libraryRepository.CreateCharacter(characEntity);
+            var result = await _libraryRepository.SaveChangesAsync();
+
+            if (result)
+            {
+                return _mapper.Map<Character>(characEntity);
+            }
+
+            throw new Exception("Database Error");
+        }
+
+        public async Task<DeleteModel> DeleteCharacterAsync(int characID)
+        {
+            await GetCharacterAsync(characID);
+
+            var DeleteResult = await _libraryRepository.DeleteCharacterAsync(characID);
+
+            var saveResult = await _libraryRepository.SaveChangesAsync();
+
+            if (!saveResult || !DeleteResult)
+            {
+                throw new Exception("Database Error");
+            }
+
+
+            if (saveResult)
+            {
+                return new DeleteModel()
+                {
+                    IsSuccess = saveResult,
+                    Message = "The character was removed."
+                };
+            }
+            else
+            {
+                return new DeleteModel()
+                {
+                    IsSuccess = saveResult,
+                    Message = "The character was not removed."
+                };
+            }
+        }
     }
 }

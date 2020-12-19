@@ -69,8 +69,41 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        [HttpPost]
+        public async Task<ActionResult<Character>> CreateCharacterAsync([FromBody] Character charac)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-
+                var url = HttpContext.Request.Host;
+                var newCharacter = await _characterService.CreateCharacterAsync(charac);
+                return CreatedAtRoute("GetCharacter", new { companyId = newCharacter.ID }, newCharacter);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+        [HttpDelete("{charID:int}")]
+        public async Task<ActionResult<DeleteModel>> DeletecompanyAsync(int charID)
+        {
+            try
+            {
+                return Ok(await _characterService.DeleteCharacterAsync(charID));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message); ;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
 
     }
 }
