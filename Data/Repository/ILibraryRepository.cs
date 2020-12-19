@@ -22,6 +22,7 @@ namespace SimpsonApp.Data.Repository
         Task<PhraseEntity>GetPhraseAsync(int PharaseId);
         Task<bool> UpdatePhraseAsync(PhraseEntity frase);
         void CreatePhrase(PhraseEntity frase);
+        bool DeletePhrase(int PhraseID);
         
     }
 }

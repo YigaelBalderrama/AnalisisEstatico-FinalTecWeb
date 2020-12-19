@@ -88,6 +88,23 @@ namespace SimpsonApp.Controllers
             }
         }
 
+        [HttpDelete("{phraseID:int}")]
+        public async Task<ActionResult<bool>> DeletePhraseAsync(int characterID, int phraseID)
+        {
+            try
+            {
+                return Ok(await _phraseService.DeletePhraseAsync(characterID, phraseID));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+
     }
     
 }

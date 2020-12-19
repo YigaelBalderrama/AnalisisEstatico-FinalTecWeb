@@ -84,5 +84,17 @@ namespace SimpsonApp.Services
             modelToReturn.CharacterID = characID;
             return modelToReturn;
         }
+
+        public async Task<bool> DeletePhraseAsync(int characID, int PhraseID)
+        {
+            await GetphraseAsync(characID, PhraseID);
+            _libraryRepository.DeletePhrase(PhraseID);
+            var saveRestul = await _libraryRepository.SaveChangesAsync();
+            if (!saveRestul)
+            {
+                throw new Exception("Error while saving.");
+            }
+            return true;
+        }
     }
 }

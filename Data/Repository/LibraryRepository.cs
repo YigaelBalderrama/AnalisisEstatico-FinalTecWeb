@@ -113,5 +113,12 @@ namespace SimpsonApp.Data.Repository
             }
             _dbContext.Phrases.Add(frase);
         }
+
+        public bool DeletePhrase(int PhraseID)
+        {
+            var PhraseToDelete = new PhraseEntity() { ID = PhraseID };
+            _dbContext.Entry(PhraseToDelete).State = EntityState.Deleted;
+            return true;
+        }
     }
 }
