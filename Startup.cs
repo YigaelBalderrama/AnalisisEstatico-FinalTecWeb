@@ -45,7 +45,7 @@ namespace SimpsonApp
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
             app.UseHttpsRedirection();
 
             app.UseRouting();
