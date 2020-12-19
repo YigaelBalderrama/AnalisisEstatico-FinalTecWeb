@@ -15,14 +15,15 @@ namespace SimpsonApp.Data.Repository
         bool UpdateCharacter(CharacterEntity charac);
         void CreateCharacter(CharacterEntity character);
         Task<bool> DeleteCharacterAsync(int characId);
-
-        Task<bool> SaveChangesAsync();
         ///FRASES
         Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charID);
         Task<PhraseEntity>GetPhraseAsync(int PharaseId);
         Task<bool> UpdatePhraseAsync(PhraseEntity frase);
         void CreatePhrase(PhraseEntity frase);
         bool DeletePhrase(int PhraseID);
-        
+
+
+        Task<bool> SaveChangesAsync();
+
     }
 }

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SimpsonApp.Data.Repository;
 using SimpsonApp.Services;
 
 namespace SimpsonApp
@@ -31,7 +33,9 @@ namespace SimpsonApp
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IPhraseService, PhraseService>();
             services.AddTransient<ICharacterService, CharacterService>();
-
+            services.AddDbContext<LibraryDbContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("SimpsonAPI"));
+            });
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
