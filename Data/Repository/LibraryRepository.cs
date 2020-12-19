@@ -46,8 +46,15 @@ namespace SimpsonApp.Data.Repository
         }
         public bool UpdateCharacter(CharacterEntity charac)
         {
-            var companyToUpdate = _dbContext.Characters.FirstOrDefault(c => c.ID == charac.ID);
-            _dbContext.Entry(companyToUpdate).CurrentValues.SetValues(charac);
+            var characterToUpdate = _dbContext.Characters.FirstOrDefault(c => c.ID == charac.ID);
+
+            charac.Name = charac.Name ?? characterToUpdate.Name;
+            charac.Age= charac.Age ?? characterToUpdate.Age;
+            charac.Occupation = charac.Occupation ?? characterToUpdate.Occupation;
+            charac.isProta = charac.isProta ?? characterToUpdate.isProta;
+            charac.appearingSeason = charac.appearingSeason ?? characterToUpdate.appearingSeason;
+
+            _dbContext.Entry(characterToUpdate).CurrentValues.SetValues(charac);
             return true;
         }
         public async Task<bool> SaveChangesAsync()

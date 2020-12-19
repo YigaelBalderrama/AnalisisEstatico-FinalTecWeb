@@ -17,7 +17,7 @@ namespace SimpsonApp.Services
         private IMapper _mapper;
         private HashSet<string> allowedOrderByParameters = new HashSet<string>()
         {
-            "ID","Name","Age"
+            "id","name","age"
         };
         public CharacterService(IMapper mapper, ILibraryRepository libraryRepository)
         {
@@ -51,14 +51,13 @@ namespace SimpsonApp.Services
             await GetCharacterAsync(charId);
             characterEntity.ID = charId;
             _libraryRepository.UpdateCharacter(characterEntity);
-
             var saveResult = await _libraryRepository.SaveChangesAsync();
 
             if (!saveResult)
             {
                 throw new Exception("Database Error");
             }
-            return c;
+            return await GetCharacterAsync(charId);
         }
 
         public async Task<Character> CreateCharacterAsync(Character charac)

@@ -18,6 +18,7 @@ namespace SimpsonApp.Controllers
         {
             this._characterService = characterservice; 
         }
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> getCharacters(bool showPrase=false,string orderBy="ID")
         {
             try
@@ -34,7 +35,7 @@ namespace SimpsonApp.Controllers
             }
         }
         [HttpGet("{charId:int}", Name = "GetCharacter")]
-        public async Task<ActionResult<Character>> GetCompanyAsync(int charId, bool showPhrases = false)
+        public async Task<ActionResult<Character>> GetCharacter(int charId, bool showPhrases = false)
         {
             try
             {
@@ -52,21 +53,26 @@ namespace SimpsonApp.Controllers
         [HttpPut("{charId:int}")]
        public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
         {
-            try
+            var clarifications = validateModelFields(c, true);
+            if (clarifications.Count() == 0)
             {
-                if (!ModelState.IsValid)
-                { 
-                    return BadRequest();   
+                try
+                {
+                    return Ok(await _characterService.UpdateCharacter(charId, c));
                 }
-                return Ok(await _characterService.UpdateCharacter(charId , c));
+                catch (NotFoundOperationException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                }
             }
-            catch (NotFoundOperationException ex)
+            else
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                string ret = $"Some fileds were invalidated, consider these clarifications: {string.Join(", ", clarifications)}";
+                return BadRequest(ret);
             }
         }
         [HttpPost]
@@ -81,7 +87,7 @@ namespace SimpsonApp.Controllers
 
                 var url = HttpContext.Request.Host;
                 var newCharacter = await _characterService.CreateCharacterAsync(charac);
-                return CreatedAtRoute("GetCharacter", new { companyId = newCharacter.ID }, newCharacter);
+                return CreatedAtRoute("GetCharacter", new { charId = newCharacter.ID }, newCharacter);
             }
             catch (Exception ex)
             {
@@ -104,6 +110,29 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
-
+        public List<string> validateModelFields(Character team, bool updateMode = false)
+        {
+            var ret = new List<string>();
+            if (!ModelState.IsValid)
+            {
+                foreach (var par in ModelState)
+                {
+                    if (par.Value.Errors.Count != 0)
+                    {
+                        string clar = "";
+                        foreach (var err in par.Value.Errors)
+                        {
+                            if (!(err.ErrorMessage == "Required" && updateMode))
+                            {
+                                clar += err.ErrorMessage + ", ";
+                            }
+                        }
+                        if (clar != "")
+                            ret.Add($"{par.Key} -> ({clar})");
+                    }
+                }
+            }
+            return ret;
+        }
     }
 }

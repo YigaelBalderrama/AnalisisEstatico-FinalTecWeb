@@ -1,0 +1,30 @@
+body{
+    background-color: rgb(240, 240, 240);
+}
+#message-image{
+    position: absolute; left: 25%; bottom: 10%; 
+    background-color: rgba(91, 178, 248, 0.8); 
+    color: rgb(247, 244, 244); 
+    padding: 0.5% 1%; border-radius: 25px;
+    box-shadow: 4px 4px rgb(27, 27, 27,0.5);
+    transition: 0.3s;
+}
+#message-image:hover{
+    transition: 0.3s;
+    background-color: rgba(91, 178, 248, 1);
+    box-shadow: 1px 1px rgb(27, 27, 27,0.5);
+}
+.container-characters .list-group-item-action.active{
+    color: rgb(255, 255, 255);
+    background-color: rgb(42, 182, 238);
+    border-color: rgb(235, 235, 231);
+    /* border-width: 5px;
+    border-style:inset; */
+}
+.container-characters .selection-options{
+    border-radius: 10px;
+}
+.container-characters .list-group-item{
+    border-radius: 10px; 
+    border-width: 0;
+}

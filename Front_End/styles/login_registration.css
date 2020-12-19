@@ -1,0 +1,8 @@
+body{
+    background-color:  linear-gradient(0deg, rgb(253, 253, 252) 10%,  rgb(184, 238, 241) 80%, rgb(158, 225, 252) 100%);
+}
+.container{
+    display: flex;
+    justify-content: center;
+    padding: 10% 25%;
+}

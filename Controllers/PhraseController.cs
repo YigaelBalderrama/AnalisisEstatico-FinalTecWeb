@@ -20,11 +20,11 @@ namespace SimpsonApp.Controllers
             _phraseService = phraseService;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Phrase>>>getPhrases(int charID)
+        public async Task<ActionResult<IEnumerable<Phrase>>>getPhrases(int characterID)
         {
             try
             {
-                return Ok(await _phraseService.getPhrases(charID));
+                return Ok(await _phraseService.getPhrases(characterID));
             }
             catch (NotFoundOperationException ex)
             {

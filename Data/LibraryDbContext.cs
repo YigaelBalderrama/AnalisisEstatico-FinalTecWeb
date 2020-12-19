@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimpsonApp.Data.Entities;
-namespace SimpsonApp.Data.Repository
+namespace SimpsonApp.Data
 {
-    public  class LibraryDbContext:IdentityDbContext
+    public  class LibraryDbContext:DbContext
     {
         public DbSet<CharacterEntity> Characters { get; set; }
         public DbSet<PhraseEntity> Phrases { get; set; }

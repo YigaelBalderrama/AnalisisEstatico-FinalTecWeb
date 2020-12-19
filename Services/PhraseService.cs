@@ -26,7 +26,7 @@ namespace SimpsonApp.Services
             var company = await _libraryRepository.GetCharacterAsync(charID); 
             if (company == null)
             {
-                throw new NotFoundOperationException($"the company id:{charID}, does not exist");
+                throw new NotFoundOperationException($"the character id:{charID}, does not exist");
             }
         }
         private async Task validatePhrase(int phraseID)
