@@ -16,7 +16,7 @@ namespace SimpsonApp.Data.Repository
         void CreateCharacter(CharacterEntity character);
         Task<bool> DeleteCharacterAsync(int characId);
         ///FRASES
-        Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charID);
+        Task<IEnumerable<PhraseEntity>> GetPhrasesAsync();
         Task<PhraseEntity>GetPhraseAsync(int PharaseId);
         Task<bool> UpdatePhraseAsync(PhraseEntity frase);
         void CreatePhrase(PhraseEntity frase);

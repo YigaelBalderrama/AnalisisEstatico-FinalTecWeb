@@ -72,13 +72,10 @@ namespace SimpsonApp.Data.Repository
 
         }
 
-        public async Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charID)
+        public async Task<IEnumerable<PhraseEntity>> GetPhrasesAsync()
         {
             IQueryable<PhraseEntity> query = _dbContext.Phrases;
-            query = query.Where(v => v.Character.ID == charID);
-            query = query.Include(v => v.Character);
             query = query.AsNoTracking();
-
             return await query.ToArrayAsync(); 
         }
 

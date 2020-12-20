@@ -11,12 +11,29 @@ using Microsoft.AspNetCore.Http;
 namespace SimpsonApp.Controllers
 {
     [Route("api/[controller]")]
-    public class CharacterController:ControllerBase
+    public class CharacterController : ControllerBase
     {
         private ICharacterService _characterService;
         public CharacterController(ICharacterService characterservice)
         {
-            this._characterService = characterservice; 
+            this._characterService = characterservice;
+        }
+        [HttpGet("phrases")]
+        public async Task<ActionResult<IEnumerable<Phrase>>> getPhrases()
+        {
+            try
+            {
+                return Ok(await _characterService.getPhrases());
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> getCharacters(bool showPrase=false,string orderBy="ID")
@@ -95,7 +112,7 @@ namespace SimpsonApp.Controllers
             }
         }
         [HttpDelete("{charID:int}")]
-        public async Task<ActionResult<DeleteModel>> DeletecompanyAsync(int charID)
+        public async Task<ActionResult<DeleteModel>> DeleteCharacterAsync(int charID)
         {
             try
             {

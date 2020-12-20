@@ -12,6 +12,7 @@ namespace SimpsonApp.Services
         Task<Character> UpdateCharacter(int charId, Character c);
         Task<Character> GetCharacterAsync(int charID, bool showPhrase);
         Task<Character> CreateCharacterAsync(Character charac);
+        Task<IEnumerable<Phrase>> getPhrases();
 
         Task<DeleteModel> DeleteCharacterAsync(int characID);
 

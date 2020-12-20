@@ -23,27 +23,21 @@ namespace SimpsonApp.Services
 
         private async Task validateCharacter(int charID)
         {
-            var company = await _libraryRepository.GetCharacterAsync(charID); 
-            if (company == null)
+            var character = await _libraryRepository.GetCharacterAsync(charID); 
+            if (character == null)
             {
                 throw new NotFoundOperationException($"the character id:{charID}, does not exist");
             }
         }
         private async Task validatePhrase(int phraseID)
         {
-            var videogame = await _libraryRepository.GetPhraseAsync(phraseID);
-            if (videogame == null)
+            var phrase = await _libraryRepository.GetPhraseAsync(phraseID);
+            if (phrase == null)
             {
                 throw new NotFoundOperationException($"the Phrase with id:{phraseID}, does not exist");
             }
         }
-        public async Task<IEnumerable<Phrase>> getPhrases(int charID)
-        {
-            await validateCharacter(charID);
-            var character = await _libraryRepository.GetPhrasesAsync(charID);
-            return _mapper.Map<IEnumerable<Phrase>>(character);
-        }
-
+       
         public async  Task<Phrase> GetphraseAsync(int charID, int PharaseId)
         {
             await validateCharacter(charID);

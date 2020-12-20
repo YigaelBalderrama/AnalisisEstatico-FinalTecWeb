@@ -19,47 +19,14 @@ namespace SimpsonApp.Controllers
         {
             _phraseService = phraseService;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Phrase>>>getPhrases(int characterID)
+
+
+        [HttpGet("{PhraseId:int}", Name = "GetPhrase")]
+        public async Task<ActionResult<Phrase>> GetPhraseAsync(int characterID, int PhraseId)
         {
             try
             {
-                return Ok(await _phraseService.getPhrases(characterID));
-            }
-            catch (NotFoundOperationException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
-            }
-
-        }
-
-        [HttpGet("{charID:int}", Name = "GetPharse")]
-        public async Task<ActionResult<Phrase>> GetPhraseAsync(int charID, int PharaseId)
-        {
-            try
-            {
-                return Ok(await _phraseService.GetphraseAsync(charID, PharaseId));
-            }
-            catch (NotFoundOperationException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
-            }
-        }
-
-        [HttpPut("{phareID:int}")]
-        public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characID, int phraseID, [FromBody] Phrase Frase)
-        {
-            try
-            {
-                return Ok(await _phraseService.UpdatePhraseAsync(characID, phraseID, Frase));
+                return Ok(await _phraseService.GetphraseAsync(characterID, PhraseId));
             }
             catch (NotFoundOperationException ex)
             {
@@ -71,12 +38,12 @@ namespace SimpsonApp.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<Phrase>> CreateVideogameAsync(int chracID, [FromBody] Phrase phrase)
+        public async Task<ActionResult<Phrase>> CreatePhraseAsync(int characterID, [FromBody] Phrase phrase)
         {
             try
             {
-                var phraseCreated = await _phraseService.CreatePhraseAsync(chracID, phrase);
-                return CreatedAtRoute("GetPhrase", new { characterId = chracID, phraseID = phraseCreated.ID }, phraseCreated);
+                var phraseCreated = await _phraseService.CreatePhraseAsync(characterID, phrase);
+                return CreatedAtRoute("GetPhrase", new { characterID = characterID, PhraseId = phraseCreated.ID }, phraseCreated);
             }
             catch (NotFoundOperationException ex)
             {
@@ -88,6 +55,23 @@ namespace SimpsonApp.Controllers
             }
         }
 
+        [HttpPut("{phraseID:int}")]
+        public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
+        {
+            try
+            {
+                return Ok(await _phraseService.UpdatePhraseAsync(characterID, phraseID, Frase));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+       
         [HttpDelete("{phraseID:int}")]
         public async Task<ActionResult<bool>> DeletePhraseAsync(int characterID, int phraseID)
         {

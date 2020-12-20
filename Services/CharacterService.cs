@@ -24,6 +24,11 @@ namespace SimpsonApp.Services
             this._mapper = mapper;
             this._libraryRepository = libraryRepository;
         }
+        public async Task<IEnumerable<Phrase>> getPhrases()
+        {
+            var character = await _libraryRepository.GetPhrasesAsync();
+            return _mapper.Map<IEnumerable<Phrase>>(character);
+        }
         public async Task<IEnumerable<Character>> getCharacters(string orderBy, bool showPrase)
         {
             if (!allowedOrderByParameters.Contains(orderBy.ToLower()))
@@ -103,6 +108,15 @@ namespace SimpsonApp.Services
                     IsSuccess = saveResult,
                     Message = "The character was not removed."
                 };
+            }
+            
+        }
+        private async Task validateCharacter(int charID)
+        {
+            var character = await _libraryRepository.GetCharacterAsync(charID);
+            if (character == null)
+            {
+                throw new NotFoundOperationException($"the character id:{charID}, does not exist");
             }
         }
     }
