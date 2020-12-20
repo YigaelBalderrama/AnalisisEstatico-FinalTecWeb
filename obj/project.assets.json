@@ -5700,23 +5700,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Home\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Asus\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Home\\Documents\\yigael\\Tec_Web\\SimpsonApp\\FinalTecWeb\\SimpsonApp.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Documents\\Tec WEB\\Proyecto_Final\\FinalTecWeb\\SimpsonApp.csproj",
       "projectName": "SimpsonApp",
-      "projectPath": "C:\\Users\\Home\\Documents\\yigael\\Tec_Web\\SimpsonApp\\FinalTecWeb\\SimpsonApp.csproj",
-      "packagesPath": "C:\\Users\\Home\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Home\\Documents\\yigael\\Tec_Web\\SimpsonApp\\FinalTecWeb\\obj\\",
+      "projectPath": "C:\\Users\\Asus\\Documents\\Tec WEB\\Proyecto_Final\\FinalTecWeb\\SimpsonApp.csproj",
+      "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Asus\\Documents\\Tec WEB\\Proyecto_Final\\FinalTecWeb\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Home\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5777,7 +5773,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

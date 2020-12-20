@@ -66,10 +66,10 @@
             </div><br>
             <div class="fields" style="padding: 10px; background-color: white;">
               <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2</div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3</div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">4</div>
               </div>
             </div>
         </div>
@@ -85,30 +85,30 @@
           </a>
           <div class="collapse" id="collapseExample">
             <div class="card card-body">
-              <form>
+              <form id = "frm-create">
                 <div class="form-group">
-                    <label for="name">Name</label>
+                    <label name = "label-name" for="name">Name</label>
                     <input type="text" class="form-control" id="name" placeholder="Bob" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="age">Age</label>
+                    <label name = "label-age" for="age">Age</label>
                     <input type="number" class="form-control" id="age" placeholder="35" name="age">
                 </div>
                 <div class="form-group">
-                    <label for="occupation">Occupation</label>
+                    <label name = "label-occupation" for="occupation">Occupation</label>
                     <input type="text" class="form-control" id="occupation" placeholder="villain" name="occupation">
                 </div>
                 <div class="form-group">
-                    <label for="appearing">Appearing Season</label>
-                    <input type="number" class="form-control" id="appearing" placeholder="1" name="appearingSeason">
+                    <label name = "label-appearing" for="appearing">Appearing Season</label>
+                    <input type="number" class="form-control" id="appearing" placeholder="1" name="appearingseason">
                 </div>
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck" name="protagonist">Protagonist</label>
+                        <input name = "protagonist" class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck" name="label-protagonist">Protagonist</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Confirm</button>
+                <button type="submit" class="btn btn-primary" onclick="fetch_create();">Confirm</button>
                 <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                   Cancel
                 </a>

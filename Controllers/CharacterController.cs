@@ -70,7 +70,7 @@ namespace SimpsonApp.Controllers
         [HttpPut("{charId:int}")]
        public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
         {
-            var clarifications = validateModelFields(c, true);
+            var clarifications = validateModelFields(true);
             if (clarifications.Count() == 0)
             {
                 try
@@ -88,8 +88,7 @@ namespace SimpsonApp.Controllers
             }
             else
             {
-                string ret = $"Some fileds were invalidated, consider these clarifications: {string.Join(", ", clarifications)}";
-                return BadRequest(ret);
+                return BadRequest(ModelState);
             }
         }
         [HttpPost]
@@ -127,7 +126,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
-        public List<string> validateModelFields(Character team, bool updateMode = false)
+        public List<string> validateModelFields(bool updateMode = false)
         {
             var ret = new List<string>();
             if (!ModelState.IsValid)

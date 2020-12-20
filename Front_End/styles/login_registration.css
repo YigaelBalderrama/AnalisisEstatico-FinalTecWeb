@@ -1,8 +1,20 @@
 body{
-    background-color:  linear-gradient(0deg, rgb(253, 253, 252) 10%,  rgb(184, 238, 241) 80%, rgb(158, 225, 252) 100%);
+    margin: 0;
+    padding: 0;
+    background-image: url("../imgs/login-wpp.jpg");
+    background-size: cover ;
 }
 .container{
     display: flex;
     justify-content: center;
-    padding: 10% 25%;
+    padding: 10% 20%;
+}
+#login, #register{
+    background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    transition: 0.3s;
+    box-shadow: 0px 0px rgb(190, 189, 189);
+}
+#login:hover, #register:hover{
+    box-shadow: 8px 8px rgb(189, 187, 187,0.8);
 }

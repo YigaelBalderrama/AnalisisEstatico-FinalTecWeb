@@ -58,17 +58,24 @@ namespace SimpsonApp.Controllers
         [HttpPut("{phraseID:int}")]
         public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
         {
-            try
+            if (validateModelFields().Count() == 0)
             {
-                return Ok(await _phraseService.UpdatePhraseAsync(characterID, phraseID, Frase));
+                try
+                {
+                    return Ok(await _phraseService.UpdatePhraseAsync(characterID, phraseID, Frase));
+                }
+                catch (NotFoundOperationException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                }
             }
-            catch (NotFoundOperationException ex)
+            else
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                return BadRequest(ModelState);
             }
         }
        
@@ -88,7 +95,30 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
-
+        public List<string> validateModelFields( bool updateMode = false)
+        {
+            var ret = new List<string>();
+            if (!ModelState.IsValid)
+            {
+                foreach (var par in ModelState)
+                {
+                    if (par.Value.Errors.Count != 0)
+                    {
+                        string clar = "";
+                        foreach (var err in par.Value.Errors)
+                        {
+                            if (!(err.ErrorMessage == "Required" && updateMode))
+                            {
+                                clar += err.ErrorMessage + ", ";
+                            }
+                        }
+                        if (clar != "")
+                            ret.Add($"{par.Key} -> ({clar})");
+                    }
+                }
+            }
+            return ret;
+        }
     }
     
 }
