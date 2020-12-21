@@ -1,14 +1,30 @@
 window.addEventListener("load",(event) =>{
-    
     const baseurl = "https://localhost:44319";
-    (async function () {
+    var showCharacters = (async function (criteria = "none") {
+        debugger;
         if(!Boolean(sessionStorage.getItem("jwt"))){
             window.location.href = "login_registration.html";
         }
-        var response = await fetch(`${baseurl}/api/character`);
+        var jwt = sessionStorage.getItem("jwt");
+        var params = {
+            method : "GET",
+            headers: {"Authorization":`Bearer ${jwt}`}
+        };
+        var response = await fetch(`${baseurl}/api/character`,params);
         try {
             if (response.status === 200){
                 message = await response.json();
+                if(criteria!= "none"){
+                    if(criteria == "name"){
+                        message = message.sort((o1,o2) => (o1.name>o2.name)?1:((o2.name>o1.name)?-1:0));
+                    }
+                    if(criteria == "age"){
+                        message = message.sort((o1,o2) => (o1.age>o2.age)?1:((o2.age>o1.age)?-1:0));
+                    }
+                    if(criteria == "appearingSeason"){
+                        message = message.sort((o1,o2) => (o1.appearingSeason>o2.appearingSeason)?1:((o2.appearingSeason>o1.appearingSeason)?-1:0));
+                    }
+                }
                 lista = message.map((c) => {
                     let elem =   `<div class="card " style="width: 300px; margin-bottom:30px; border-radius:15px;">
                     <img class="card-img-top logo" src="./imgs/logo-${c.name}.png" alt="Card image ${c.name}" style="width:70%; height:200px; margin: 5% 15%">
@@ -18,6 +34,7 @@ window.addEventListener("load",(event) =>{
                       <b>Name</b>: ${c.name}<br>
                       <b>Age</b>: ${c.age}<br>
                       <b>Protagonist</b>: ${(c.isProta)?"Protagonista":"No Protagonista"}<br>
+                      <b>Occupation</b>: ${c.occupation}<br>
                       <b>Appearing Season</b>: ${c.appearingSeason}<br><br>
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal${c.id}"> Update </button>
                       <button id="deletebtn-${c.id}" type="button" class="btn btn-danger" data-toggle="modal" onclick="fetch_delete();"> Delete </button>
@@ -72,11 +89,33 @@ window.addEventListener("load",(event) =>{
                 });
                 document.getElementById('list-characters').innerHTML= lista.join(' ');
             }
+            if(response.status === 401){
+                alert("Session has expired, please log in again.")
+                window.location.href = "login_registration.html";
+            }
         }
         catch(error){
-
+            console.error(error.message);
         }
-    })();
+    });
+    showCharacters();
+    
+    var sort = function(criteria){
+        debugger;
+        showCharacters(criteria);
+    }
+    var sortByName = function(event){
+        event.preventDefault();
+        sort("name");};
+    document.getElementById("dropdown-name").addEventListener('click',sortByName);
+    var sortByAge = function(event){
+        event.preventDefault();
+        sort("age");};
+    document.getElementById("dropdown-age").addEventListener('click',sortByAge);
+    var sortByAppearingSeason = function(event){
+        event.preventDefault();
+        sort("appearingSeason");};
+    document.getElementById("dropdown-appearingSeason").addEventListener('click',sortByAppearingSeason);
 });
 
 async function fetch_create(){
@@ -208,4 +247,4 @@ async function fetch_delete(){
     } catch (error) {
         console.error(error.message);
     }
-}
+};

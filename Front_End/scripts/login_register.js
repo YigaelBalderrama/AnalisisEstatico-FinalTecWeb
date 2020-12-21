@@ -1,7 +1,7 @@
 // window.addEventListener("load",(event)=>{
 
 var login=async function(event){
-    debugger;
+    
     event.preventDefault();
     var form = event.currentTarget;
     if(!(form.email.value && form.password.value)){
@@ -12,35 +12,35 @@ var login=async function(event){
         Email: form.email.value,
         Password: form.password.value
     };
-    // const baseUrl = "https://localhost:44319";
-    // const url = `${baseUrl}/auth/Login`;
-    //var response = await fetch(url, {
-    //         headers: { "Content-Type": "application/json; charset=utf-8" },
-    //         method: 'POST',
-    //         body: JSON.stringify(data)
-    //     });
-    // try {
-    //     if (response.status === 200) {
-    //         var data = await response.json();
-    //         debugger;
-    //         sessionStorage.setItem("jwt", data.message);
-    //         window.history.back();
-    //     } else {
-    //         response.text().then((data) => {
-    //             debugger;
-    //             console.log(data);
-    //         });
-    //     }
-    // } catch (error) {
-    //    debugger;
-    //    console.log(error);
-    // }
-
-    console.log(data);
-
-    var jwt = "llave";
-    sessionStorage.setItem("jwt", jwt);
-    window.history.back();
+    const baseUrl = "https://localhost:44319";
+    const url = `${baseUrl}/api/auth/login`;
+    var response = await fetch(url, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    debugger;
+    try {
+        if (response.status === 200) {
+            var data = await response.json();
+            debugger;
+            sessionStorage.setItem("jwt", data.message);
+            window.history.back();
+        } else {
+            if(response.status === 400){
+                var data = await response.json();
+                alert(data.message);
+                window.location.href = "login_registration.html"
+            }
+            response.text().then((data) => {
+                debugger;
+                console.log(data);
+            });
+        }
+    } catch (error) {
+       debugger;
+       console.log(error);
+    }
 };
 
 var showRegister = function(){

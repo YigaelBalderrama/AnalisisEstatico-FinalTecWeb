@@ -1,13 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimpsonApp.Data.Entities;
 namespace SimpsonApp.Data
 {
-    public  class LibraryDbContext:DbContext
+    public  class LibraryDbContext:IdentityDbContext
     {
         public DbSet<CharacterEntity> Characters { get; set; }
         public DbSet<PhraseEntity> Phrases { get; set; }

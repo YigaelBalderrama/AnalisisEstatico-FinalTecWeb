@@ -1,20 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using SimpsonApp.Data;
 using SimpsonApp.Data.Repository;
 using SimpsonApp.Services;
+using SimpsonApp.Services.Security;
 
 namespace SimpsonApp
 {
@@ -35,6 +40,7 @@ namespace SimpsonApp
             services.AddTransient<IPhraseService, PhraseService>();
             services.AddTransient<ICharacterService, CharacterService>();
             services.AddTransient<ILibraryRepository, LibraryRepository>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<LibraryDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("SimpsonConnection"));
@@ -43,6 +49,32 @@ namespace SimpsonApp
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
+            });
+
+            //Identity config
+            services.AddIdentity<IdentityUser, IdentityRole>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+            }).AddEntityFrameworkStores<LibraryDbContext>()
+            .AddDefaultTokenProviders();
+
+            //JWT config
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["AuthSettings:Audience"],
+                    ValidIssuer = Configuration["AuthSettings:Issuer"],
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:Key"])),
+                    ValidateIssuerSigningKey = true
+                };
             });
         }
 
@@ -58,6 +90,7 @@ namespace SimpsonApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

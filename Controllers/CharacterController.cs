@@ -7,9 +7,11 @@ using SimpsonApp.Models;
 using SimpsonApp.Exceptions;
 using SimpsonApp.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpsonApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
