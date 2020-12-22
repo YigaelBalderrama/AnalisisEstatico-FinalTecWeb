@@ -34,8 +34,9 @@ namespace SimpsonApp.Services.Security
             {
                 return new UserManagerResponse
                 {
-                    Message = "There is no user with that Email address",
+                    Message = "User can't log in",
                     IsSuccess = false,
+                    Errors = new List<string> {"There is no user with that Email address" }
                 };
             }
 
@@ -91,8 +92,9 @@ namespace SimpsonApp.Services.Security
             if (model.Password != model.ConfirmPassword)
                 return new UserManagerResponse
                 {
-                    Message = "Confirm password doesn't match the password",
+                    Message = "User did not create",
                     IsSuccess = false,
+                    Errors = new List<string> () { "Confirm password doesn't match the password" }
                 };
 
             var identityUser = new IdentityUser

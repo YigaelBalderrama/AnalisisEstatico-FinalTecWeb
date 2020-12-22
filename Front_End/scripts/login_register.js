@@ -60,7 +60,7 @@ var showRegister = function(){
             </div>
             <div class="form-group">
             <label for="exampleInputPassword2">Confirm Password</label>
-            <input type="password" class="form-control" placeholder="confirm password name="c_password">
+            <input type="password" class="form-control" placeholder="confirm password" name="cpassword">
             </div>
             <button type="submit" class="btn btn-primary">Confirm</button>
             <button id ="tbn-cancel" class="btn btn-secondary" onclick = "window.location.href = login_registration.html;">Cancel</button>
@@ -70,6 +70,7 @@ var showRegister = function(){
     document.getElementById("frm-register").addEventListener('submit',registerAccount);
 };
 function showLogin(){
+    debugger;
     document.getElementById("register").style.padding ="0";
     document.getElementById("register").innerHTML="";
     document.getElementById("login").innerHTML=`
@@ -91,9 +92,51 @@ function showLogin(){
     document.getElementById("frm-login").addEventListener('submit',login);
 };
 
-function registerAccount(event){
-    showLogin();
-}
+async function registerAccount(event){
+    debugger;
+    event.preventDefault();
+    var form = event.currentTarget;
+    if(!(form.email.value && form.password.value && form.cpassword.value)){
+        alert("Please fill the values.");
+        return;
+    }
+    var data = {
+        Email: form.email.value,
+        Password: form.password.value,
+        ConfirmPassword: form.cpassword.value
+    };
+    const baseUrl = "https://localhost:44319";
+    const url = `${baseUrl}/api/auth/user`;
+    var response = await fetch(url, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    
+    try {
+        if (response.status === 200) {
+            var data = await response.json();
+            alert("User created successfully.");
+            window.location.href = "login_registration.html"
+        } else {
+            if(response.status === 400){
+                var data = await response.json();
+                if(Boolean(data["message"])){
+                    alert(`${data.message} ${`Errors: ${data.errors.join(', ')}` }`);
+                }
+                else{
+                    alert(data.errors.Password[0]);
+                }
+                window.location.href = "login_registration.html";
+            }
+            response.text().then((data) => {
+                console.log(data);
+            });
+        }
+    } catch (error) {
+       console.log(error);
+    }
+};
     
 // });
 showRegister();

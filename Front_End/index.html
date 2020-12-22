@@ -30,7 +30,21 @@
             </li>
           </ul>
           <br><br>
-          <a class="btn btn-light" role="button" href="./login_registration.html" style="position: absolute; right: 5%; top: 5%; background-color: rgb(255, 255, 255); color: black;">login</a>
+          <div id = "login-state" style="position: absolute; right: 5%; top: 5%; ">  
+            <a class="btn btn-light" role="button" href="./login_registration.html" style="background-color: rgb(255, 255, 255); color: black;">login</a>
+          </div>
+          <script>
+            function logout(event){
+              sessionStorage.clear();
+              window.location.href = "index.html"
+            }
+            if(Boolean(sessionStorage.getItem("jwt"))){
+                document.getElementById("login-state").innerHTML = `
+                <h7> You are Logged </h7> 
+                <button id="button-logout" class="btn btn-light" style="background-color: rgb(255, 255, 255); color: black;">Logout</button>`;
+                document.getElementById("button-logout").addEventListener('click',logout);
+            }
+          </script>
     </header>
     <div id = "container-carousel" style = "padding: 0 10%;">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-ride="true">
