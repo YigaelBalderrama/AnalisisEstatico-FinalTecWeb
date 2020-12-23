@@ -12,7 +12,7 @@ namespace SimpsonApp.Models
         [Required(ErrorMessage="Required")]
         [StringLength(50, ErrorMessage = "The name it's to large the max lenght is 50 characters")]
         public string  Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [Range(1,99,ErrorMessage ="The range of age it is (1-99) years")]
         public int? Age { get; set; }
         [StringLength(35,ErrorMessage ="The limit of letters it's 35")]

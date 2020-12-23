@@ -26,7 +26,7 @@
               <a class="nav-link" href="/phrases.html" aria-pressed="true">Phrases</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Cup</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
             </li>
           </ul>
           <br><br>
@@ -86,33 +86,39 @@
             </a>
           </div>
     </div><br><br>
-
     <div id = "container-cards" class ="row">
         <div class="card col-md-4" style="width: 18rem;">
             <img class="logo card-img-top w-100" src="imgs/logo-homero.png" alt="Card image cap">
             <div class="card-body">
-              <h5>Tip</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
+              <h5>Homero</h5>
+              <p class="card-text">Homer Jay Simpson is a fictional character and one of the main protagonists of the American animated sitcom The Simpsons. He is voiced by Dan Castellaneta and first appeared on television, along with the rest of his family, in The Tracey Ullman Show short "Good Night" on April 19, 1987.</p>
+              <a onclick="goToPhrases('homero');" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
             </div>
         </div>
         <div class="card col-md-3 " style="width: 18rem;">
             <img class="logo card-img-top w-100" src="imgs/logo-bart.png" alt="Card image cap">
             <div class="card-body">
-              <h5>Tip</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
+              <h5>Bart</h5>
+              <p class="card-text">This character was created impromptuly by Matt Groening and debuted in the short film Good Night of Tracey Ullman's The Show on April 19, 1987, originally voiced by Nancy Cartwright.</p>
+              <a onclick="goToPhrases('bart');" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
             </div>
         </div>
         <div class="card col-md-4" style="width: 18rem;">
             <img class="logo card-img-top w-100" src="imgs/abe-logo.png" alt="Card image cap">
             <div class="card-body">
-              <h5>Tip</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
+              <h5>Grampa Abe</h5>
+              <p class="card-text">Abraham Jebediah ”Abe” Simpson II, in Albany, New York also known as "Grifty McGrift" and commonly known as "Grampa Simpson", or simply as "Grampa" is a major character in The Simpsons and a supporting character in The Simpsons Movie. </p>
+              <a onclick="goToPhrases('abe');" class="btn btn-warning btn-lg active" role="button" aria-pressed="true">See Phrases</a>
             </div>
         </div>
     </div><br><br><br><br>
+
+    <script>
+        function goToPhrases(name){
+          
+          window.location.href = `phrases.html?name=${name}`;
+        }
+    </script>
     
     <footer class="page-footer font-small blue pt-4" style="background: linear-gradient(0deg,rgb(68, 205, 223) 10%, rgb(185, 241, 248) 80%, rgb(68, 205, 223) 100%)">
         <div class="container-fluid text-center text-md-left">

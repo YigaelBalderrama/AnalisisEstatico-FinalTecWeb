@@ -1,11 +1,26 @@
 const baseurl = "https://localhost:44319";
+if(!Boolean(sessionStorage.getItem("jwt"))){
+    window.location.href = "login_registration.html";
+}
+const jwt = sessionStorage.getItem("jwt");
+
 window.addEventListener("load",(event) =>{
-    (async function () {
+    function get_active_name(){
         debugger;
-        if(!Boolean(sessionStorage.getItem("jwt"))){
-            window.location.href = "login_registration.html";
+        var ret = "";
+        if(window.location.search.includes("?")){
+            var params = window.location.search.split('?')[1].split('&');
+            let obj = new Object();
+            for (let i of params){
+                let aux = i.split('=');
+                obj[aux[0]] = aux[1];
+            }
+            ret = obj.name;
         }
-        var jwt = sessionStorage.getItem("jwt");
+        return ret;
+    };
+    (async function () {
+        //debugger;
         var params = {
             method : "GET",
             headers: {"Authorization":`Bearer ${jwt}`}
@@ -14,11 +29,12 @@ window.addEventListener("load",(event) =>{
         try {
             if (response.status === 200){
                 message = await response.json();
-                let active=true;
+                debugger;
+                let name_active = get_active_name();
                 let lista = message.map((c) =>
                 {
-                    let elem =`<a onclick="fetch_phrases(${c.id},'${c.name}');" class="list-group-item list-group-item-action ${active?"active":""}" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" aria-selected="false">${c.name.toUpperCase()}</a>`
-                    if(active){
+                    let elem =`<a onclick="fetch_phrases(${c.id},'${c.name}');" class="list-group-item list-group-item-action ${name_active==c.name?"active":""}" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" aria-selected="false">${c.name.toUpperCase()}</a>`
+                    if(name_active===c.name){
                         fetch_phrases(c.id,c.name);
                     }
                     active = false;
@@ -70,7 +86,7 @@ async function fetch_phrases(idchar,name) {
                                         <form id="updatefrm-${p.id}">
                                             <div class="form-group">
                                             <label for="content${p.id}">Content</label>
-                                            <input type="text" class="form-control" id="content${p.id}" placeholder="${p.content}" name="content">
+                                            <input type="text" class="form-control" id="content${p.id}" value="${p.content}" placeholder="${p.content}" name="content">
                                             </div>
                                             <div class="form-group">
                                             <label for="popularity${p.id}">Popularity</label>

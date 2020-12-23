@@ -1,11 +1,12 @@
+if(!Boolean(sessionStorage.getItem("jwt"))){
+    window.location.href = "login_registration.html";
+}
+const jwt = sessionStorage.getItem("jwt");
+
 window.addEventListener("load",(event) =>{
     const baseurl = "https://localhost:44319";
     var showCharacters = (async function (criteria = "none") {
         debugger;
-        if(!Boolean(sessionStorage.getItem("jwt"))){
-            window.location.href = "login_registration.html";
-        }
-        var jwt = sessionStorage.getItem("jwt");
         var params = {
             method : "GET",
             headers: {"Authorization":`Bearer ${jwt}`}
@@ -133,7 +134,7 @@ async function fetch_create(){
     var params = {
         method : "POST",
         body : JSON.stringify(data),
-        headers: { "Content-Type": "application/json; charset=utf-8" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Authorization":`Bearer ${jwt}`}
     };
     debugger;
     var response = await fetch(`${baseurl}/api/character`, params);
@@ -185,7 +186,7 @@ async function fetch_update(){
     var params = {
         method : "PUT",
         body : JSON.stringify(data),
-        headers: { "Content-Type": "application/json; charset=utf-8" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Authorization":`Bearer ${jwt}`}
     };
     var response = await fetch(`${baseurl}/api/character/${id}`, params);
     try {
@@ -228,7 +229,10 @@ async function fetch_delete(){
     var id = event.target.id;
     id = parseInt(id.split('-')[1]);
 
-    var params = { method: "DELETE"};
+    var params = {
+        method: "DELETE",
+        headers: {"Authorization":`Bearer ${jwt}`}
+    };
     var response = await fetch(`${baseurl}/api/character/${id}`,params);
     try {
         if(response.status == 200){
