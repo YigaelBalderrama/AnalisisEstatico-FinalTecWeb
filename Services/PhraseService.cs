@@ -50,6 +50,11 @@ namespace SimpsonApp.Services
             return _mapper.Map<Phrase>(frase);
         }
 
+        public async Task<IEnumerable<Phrase>> getPhrases(int charId)
+        {
+            await validateCharacter(charId);
+            return _mapper.Map<IEnumerable<Phrase>>(await _libraryRepository.GetPhrasesAsync(charId));
+        }
         public async Task<bool> UpdatePhraseAsync(int characID, int phraseID, Phrase Frase)
         {
             await GetphraseAsync(characID,phraseID);
@@ -67,6 +72,7 @@ namespace SimpsonApp.Services
         {
             await validateCharacter(characID);
             var chrac = _mapper.Map<PhraseEntity>(frase);
+            chrac.Character = await _libraryRepository.GetCharacterAsync(characID);
             _libraryRepository.CreatePhrase(chrac);
             var saveResult = await _libraryRepository.SaveChangesAsync();
             if (!saveResult)
@@ -90,5 +96,7 @@ namespace SimpsonApp.Services
             }
             return true;
         }
+
+        
     }
 }

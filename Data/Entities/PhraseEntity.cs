@@ -11,7 +11,7 @@ namespace SimpsonApp.Data.Entities
        
         public string Content { get; set; }
        
-        public int Season { get; set; }
+        public int? Season { get; set; }
        
         public string Popularity { get; set; }
         public virtual CharacterEntity Character { get; set; }

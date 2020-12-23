@@ -20,6 +20,23 @@ namespace SimpsonApp.Controllers
             _phraseService = phraseService;
         }
 
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Phrase>>> getPhrases(int characterID)
+        {
+            try
+            {
+                return Ok(await _phraseService.getPhrases(characterID));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+
+        }
 
         [HttpGet("{PhraseId:int}", Name = "GetPhrase")]
         public async Task<ActionResult<Phrase>> GetPhraseAsync(int characterID, int PhraseId)
@@ -40,25 +57,32 @@ namespace SimpsonApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Phrase>> CreatePhraseAsync(int characterID, [FromBody] Phrase phrase)
         {
-            try
+            if (validateModelFields().Count() == 0)
             {
-                var phraseCreated = await _phraseService.CreatePhraseAsync(characterID, phrase);
-                return CreatedAtRoute("GetPhrase", new { characterID = characterID, PhraseId = phraseCreated.ID }, phraseCreated);
+                try
+                {
+                    var phraseCreated = await _phraseService.CreatePhraseAsync(characterID, phrase);
+                    return CreatedAtRoute("GetPhrase", new { characterID = characterID, PhraseId = phraseCreated.ID }, phraseCreated);
+                }
+                catch (NotFoundOperationException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                }
             }
-            catch (NotFoundOperationException ex)
+            else
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+                return BadRequest(ModelState);
             }
         }
 
         [HttpPut("{phraseID:int}")]
         public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
         {
-            if (validateModelFields().Count() == 0)
+            if (validateModelFields(true).Count() == 0)
             {
                 try
                 {

@@ -72,11 +72,20 @@ namespace SimpsonApp.Data.Repository
 
         }
 
-        public async Task<IEnumerable<PhraseEntity>> GetPhrasesAsync()
+        public async Task<IEnumerable<PhraseEntity>> GetPhrasesAsync(int charId=0)
         {
-            IQueryable<PhraseEntity> query = _dbContext.Phrases;
-            query = query.AsNoTracking();
-            return await query.ToArrayAsync(); 
+            if (charId == 0)
+            {
+                IQueryable<PhraseEntity> query = _dbContext.Phrases;
+                query = query.AsNoTracking();
+                return await query.ToArrayAsync();
+            }
+            else
+            {
+                IQueryable<PhraseEntity> query = _dbContext.Phrases.Where(p => p.Character.ID == charId);
+                query = query.AsNoTracking();
+                return await query.ToArrayAsync();
+            }
         }
 
         public async Task<PhraseEntity> GetPhraseAsync(int PharaseId)
@@ -91,8 +100,11 @@ namespace SimpsonApp.Data.Repository
         public async Task<bool> UpdatePhraseAsync(PhraseEntity frase)
         {
             var frasetoupdate = await _dbContext.Phrases.FirstOrDefaultAsync(v => v.ID == frase.ID);
-            frasetoupdate.Content = frase.Content ?? frasetoupdate.Content;
-            frasetoupdate.Popularity= frase.Popularity ?? frasetoupdate.Popularity;
+            frase.Content = frase.Content ?? frasetoupdate.Content;
+            frase.Season = frase.Season ?? frasetoupdate.Season;
+            frase.Popularity= frase.Popularity ?? frasetoupdate.Popularity;
+
+            _dbContext.Entry(frasetoupdate).CurrentValues.SetValues(frase);
             return true;
         }
 
