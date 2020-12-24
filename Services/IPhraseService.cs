@@ -13,7 +13,7 @@ namespace SimpsonApp.Services
         Task<bool> UpdatePhraseAsync(int characID, int phraseID, Phrase Frase);
         Task<Phrase> CreatePhraseAsync(int characID, Phrase frase);
         Task<bool> DeletePhraseAsync(int characID, int PharseID);
-
+        Task<bool> addLikes(int characID, List<int> listPhrasesId);
         Task<IEnumerable<Phrase>> getPhrases(int charId);
     }
 }

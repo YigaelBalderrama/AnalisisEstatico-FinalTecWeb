@@ -29,9 +29,12 @@
               <a class="nav-link" href="/phrases.html" aria-pressed="true">Phrases</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+              <a class="nav-link" href="/Cup.html" tabindex="-1" aria-disabled="true">Report</a>
             </li>
           </ul>
+          <div id = "login-state" style="position: absolute; right: 5%; top: 5%; ">  
+            <a class="btn btn-light" role="button" href="./login_registration.html" style="background-color: rgb(255, 255, 255); color: black;">login</a>
+          </div>
     </header>
     <!-- content -->
     <div class = "container-imagen-muestra" style="padding:0 21%; position: relative; background-color: white;">
@@ -46,7 +49,7 @@
     <div class="nav-options-show-phrases" style=" padding: 0 7%;"> 
         <div class="d-flex justify-content-center" style="background-color: rgb(255, 255, 255); border-radius: 15px;">
             <div class="search" > 
-                <input type="text" class="search-input" placeholder="Search..." name="search-option" disabled> 
+                <input type="text" class="search-input" placeholder="Search phrase..." name="search-option" disabled> 
                 <a href="#" class="search-icon" disabled> <img src="./imgs/search-logo.png" style="width: 20px;" ></img> 
                 </a>
             </div>
@@ -76,9 +79,9 @@
           <div style="text-align: center;">
             You can create your phrase too! <br>
           </div>
-          <a class="btn btn-success" data-toggle="collapse" href="#collapseExample" onclick="fillTitle();" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin: 0 35%;">
+          <button title="need to login" class="btn btn-success restricted" data-toggle="collapse" data-target="#collapseExample" onclick="fillTitle();" role="button" aria-expanded="false" aria-controls="collapseExample" style="margin: 0 35%;" disabled="true">
             Create
-          </a>
+          </button>
           <div class="collapse" id="collapseExample">
             <div class="card card-body">
                 <h5 id= "create-title" style="color: rgb(0, 153, 255);"></h5>

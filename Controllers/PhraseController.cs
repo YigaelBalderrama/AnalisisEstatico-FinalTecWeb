@@ -8,6 +8,7 @@ using SimpsonApp.Models;
 using SimpsonApp.Data.Repository;
 using SimpsonApp.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SimpsonApp.Controllers
 {
@@ -54,6 +55,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Phrase>> CreatePhraseAsync(int characterID, [FromBody] Phrase phrase)
         {
@@ -78,7 +80,7 @@ namespace SimpsonApp.Controllers
                 return BadRequest(ModelState);
             }
         }
-
+        [Authorize]
         [HttpPut("{phraseID:int}")]
         public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
         {
@@ -102,8 +104,9 @@ namespace SimpsonApp.Controllers
                 return BadRequest(ModelState);
             }
         }
-       
+        [Authorize]
         [HttpDelete("{phraseID:int}")]
+        
         public async Task<ActionResult<bool>> DeletePhraseAsync(int characterID, int phraseID)
         {
             try
@@ -119,6 +122,24 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        //api/character/2/phrase/like
+        [HttpPut("like")]
+        public async Task<ActionResult<Phrase>> LikePhraseAsync(int characterID, [FromBody] List<int> listaPhrasesId)
+        {
+            try
+            {
+                return Ok(await _phraseService.addLikes(characterID, listaPhrasesId));
+            }
+            catch (NotFoundOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
+            }
+        }
+
         public List<string> validateModelFields( bool updateMode = false)
         {
             var ret = new List<string>();

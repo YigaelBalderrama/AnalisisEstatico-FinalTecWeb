@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImpvaG5ueUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjU4MDkxODA5LTVkMmMtNDIxZS1hMDE5LTE2YTc3ZjEwYzZkMSIsImV4cCI6MTYwODU5MjUzMywiaXNzIjoiaHR0cDovL3RlY3dlYi5uZXQiLCJhdWQiOiJodHRwOi8vdGVjd2ViLm5ldCJ9.h7tSx4SwgzY8sKnx9qc2iJclsugSUVc3KqVuKxLtM1c",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InlpZ2FAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2MjY5ZTE2Mi1mNDRkLTQ0NzctYTg0Zi04MzJjMjc2NmM4ZDYiLCJleHAiOjE2MDg3NDMxNjcsImlzcyI6Imh0dHA6Ly90ZWN3ZWIubmV0IiwiYXVkIjoiaHR0cDovL3RlY3dlYi5uZXQifQ.x8Tz8hyN5gS37AmCYFvs4WuUmeDQIlE5nZHXExIRkNI",
 							"type": "string"
 						}
 					]
@@ -55,11 +55,21 @@
 		{
 			"name": "updateCharacter",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InlpZ2FAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2MjY5ZTE2Mi1mNDRkLTQ0NzctYTg0Zi04MzJjMjc2NmM4ZDYiLCJleHAiOjE2MDg3NDMxNjcsImlzcyI6Imh0dHA6Ly90ZWN3ZWIubmV0IiwiYXVkIjoiaHR0cDovL3RlY3dlYi5uZXQifQ.x8Tz8hyN5gS37AmCYFvs4WuUmeDQIlE5nZHXExIRkNI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"appearingSeason\":43\r\n}",
+					"raw": "{\r\n    \"occupation\":\"millonario/jefe\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -67,14 +77,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{hostPF}}/api/character/3",
+					"raw": "{{hostPF}}/api/character/18",
 					"host": [
 						"{{hostPF}}"
 					],
 					"path": [
 						"api",
 						"character",
-						"3"
+						"18"
 					]
 				}
 			},
@@ -83,11 +93,21 @@
 		{
 			"name": "createCharacter",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InlpZ2FAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2MjY5ZTE2Mi1mNDRkLTQ0NzctYTg0Zi04MzJjMjc2NmM4ZDYiLCJleHAiOjE2MDg3NDMxNjcsImlzcyI6Imh0dHA6Ly90ZWN3ZWIubmV0IiwiYXVkIjoiaHR0cDovL3RlY3dlYi5uZXQifQ.x8Tz8hyN5gS37AmCYFvs4WuUmeDQIlE5nZHXExIRkNI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"moe\",\r\n    \"age\": -62,\r\n    \"occupation\": \"bartender\",\r\n    \"isProta\": false,\r\n    \"appearingSeason\": -1\r\n}",
+					"raw": "{\r\n    \"name\":\"abe\",\r\n    \"age\": 72,\r\n    \"occupation\": \"abuelo\",\r\n    \"isProta\": true,\r\n    \"appearingSeason\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +153,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Email\":\"johnny@gmail.com\",\r\n    \"Password\": \"Ejemplo.123\",\r\n    \"ConfirmPassword\" : \"Ejemplo.123\"\r\n}",
+					"raw": "{\r\n    \"Email\":\"johnny2@gmail.com\",\r\n    \"Password\": \"Ejemplo.123\",\r\n    \"ConfirmPassword\" : \"Ejemplo.1234\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -161,7 +181,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Email\":\"johnny@gmail.com\",\r\n    \"Password\":\"Ejemplo.123\"\r\n}",
+					"raw": "{\r\n    \"Email\":\"yiga@gmail.com\",\r\n    \"Password\":\"Ejemplo.321\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -177,6 +197,144 @@
 						"api",
 						"auth",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePhrase",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\": \"como gente civilizada puede comerse el cuerpo y la sangre de su salvador?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hostPF}}/api/character/2/phrase/8",
+					"host": [
+						"{{hostPF}}"
+					],
+					"path": [
+						"api",
+						"character",
+						"2",
+						"phrase",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhrasesFromCharacter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostPF}}/api/character/1/phrase",
+					"host": [
+						"{{hostPF}}"
+					],
+					"path": [
+						"api",
+						"character",
+						"1",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhrases",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InlpZ2FAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI2MjY5ZTE2Mi1mNDRkLTQ0NzctYTg0Zi04MzJjMjc2NmM4ZDYiLCJleHAiOjE2MDg4MzAxMjQsImlzcyI6Imh0dHA6Ly90ZWN3ZWIubmV0IiwiYXVkIjoiaHR0cDovL3RlY3dlYi5uZXQifQ.wT0pkJ6_jp-aXZrzMpbmcb1fdxpmbiGtQ_FoCvdnCW8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostPF}}/api/character/phrases",
+					"host": [
+						"{{hostPF}}"
+					],
+					"path": [
+						"api",
+						"character",
+						"phrases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createPhrase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\":\"como gente civilizada puede comerse la sangre y cuerpo de su salvador\",\r\n    \"season\":16,\r\n    \"popularity\":\"medium\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hostPF}}/api/character/2/phrase",
+					"host": [
+						"{{hostPF}}"
+					],
+					"path": [
+						"api",
+						"character",
+						"2",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "likePhrases",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    12\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hostPF}}/api/character/9/phrase/like",
+					"host": [
+						"{{hostPF}}"
+					],
+					"path": [
+						"api",
+						"character",
+						"9",
+						"phrase",
+						"like"
 					]
 				}
 			},

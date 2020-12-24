@@ -1,12 +1,29 @@
 const baseurl = "https://localhost:44319";
-if(!Boolean(sessionStorage.getItem("jwt"))){
-    window.location.href = "login_registration.html";
-}
-const jwt = sessionStorage.getItem("jwt");
-
+// if(!Boolean(sessionStorage.getItem("jwt"))){
+//     window.location.href = "login_registration.html";
+// }
+var jwt = "";//sessionStorage.getItem("jwt");
 window.addEventListener("load",(event) =>{
-    function get_active_name(){
+    function logout(event){
+        sessionStorage.clear();
+        window.location.href = "phrases.html"
+      }
+    if(Boolean(sessionStorage.getItem("jwt"))){
+        jwt=sessionStorage.getItem("jwt");
         debugger;
+        document.getElementById("login-state").innerHTML = `
+        <h7> You are Logged </h7> 
+        <button id="button-logout" class="btn btn-light" style="background-color: rgb(255, 255, 255); color: black;">Logout</button>`;
+        document.getElementById("button-logout").addEventListener('click',logout);
+        var disabled_buttons = document.querySelectorAll("[disabled]");
+        for(let elem of disabled_buttons){
+            debugger;
+            elem.disabled=false;
+            elem.title = "";
+        }
+    }
+    function get_active_name(){
+        //debugger;
         var ret = "";
         if(window.location.search.includes("?")){
             var params = window.location.search.split('?')[1].split('&');
@@ -20,7 +37,7 @@ window.addEventListener("load",(event) =>{
         return ret;
     };
     (async function () {
-        //debugger;
+        debugger;
         var params = {
             method : "GET",
             headers: {"Authorization":`Bearer ${jwt}`}
@@ -29,11 +46,11 @@ window.addEventListener("load",(event) =>{
         try {
             if (response.status === 200){
                 message = await response.json();
-                debugger;
                 let name_active = get_active_name();
                 let lista = message.map((c) =>
                 {
-                    let elem =`<a onclick="fetch_phrases(${c.id},'${c.name}');" class="list-group-item list-group-item-action ${name_active==c.name?"active":""}" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" aria-selected="false">${c.name.toUpperCase()}</a>`
+                    let elem =`
+                        <a onclick="fetch_phrases(${c.id},'${c.name}');" class="list-group-item list-group-item-action ${name_active==c.name?"active":""}" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" aria-selected="false">${c.name.toUpperCase()}</a>`;
                     if(name_active===c.name){
                         fetch_phrases(c.id,c.name);
                     }
@@ -49,27 +66,34 @@ window.addEventListener("load",(event) =>{
         }
     })();
 });
-
+//register phrases liked before leaving the page
+window.onbeforeunload = function(){
+    register_likes();
+};
+//show phrases of a selected character
 async function fetch_phrases(idchar,name) {
-    //debugger;
+    debugger;
+    register_likes();
     document.getElementById("component-aux").innerHTML = `${idchar}-${name}`;
     fillTitle();
-
-    var response = await fetch(`${baseurl}/api/character/${idchar}/phrase`);
+    var params = {headers:{"Authorization":`Bearer ${jwt}`}};
+    var response = await fetch(`${baseurl}/api/character/${idchar}/phrase`,params);
     try {
         if (response.status===200) {
             data = await response.json();
             let frases = data.map((p)=>{
-                // let elem = `
-                // <div class="card" style="width: 300px; margin-bottom:30px; border-radius:15px;">
-                // <img class="card-img-top logo" src="./imgs/logo-${name}.png" alt="Card image ${name}" style="width:70%; height:200px; margin: 5% 15%"> 
-                // `;
                 let elem = `
                             <div style = "background-color:white; padding:10px; border-radius:10px; list-style-type: none;">
                             <li>${p.content.toUpperCase()}
+                            <div class="like" style="display:inline;"> 
+                                <button id="likebutton-${p.id}" class="btn btn-light" onclick="like_phrase('${p.id}');"> 
+                                    <img id="likelogo-${p.id}" name="none" src="../imgs/logo-like.png" style="width: 20px;"></img> 
+                                </button>
+                                <i id= textlikes-${p.id}> ${p.likes} likes</i>
+                            </div>
                             <div style="display:flex; justify-content:flex-end;">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal${p.id}"> Update </button>
-                                <button id="deletebtn-${idchar}" type="button" class="btn btn-danger" data-toggle="modal" onclick="fetch_delete(${p.id});"> Delete </button>
+                                <button ${(jwt==="")? `title = "need to login" disabled` :title=""} type="button" class="btn btn-primary restricted" data-toggle="modal" data-target="#Modal${p.id}" > Update </button>
+                                <button ${(jwt==="")? `title = "need to login" disabled` :title=""} id="deletebtn-${idchar}" type="button" class="btn btn-danger" data-toggle="modal" onclick="fetch_delete(${p.id});" > Delete </button>
                             </div>
                             </li>
                             </div><br>
@@ -119,6 +143,66 @@ async function fetch_phrases(idchar,name) {
         
     }
 }
+//change title of create collapse element and reload auxiliar variable 
+function fillTitle(){   
+    var name = document.getElementById("component-aux").innerHTML.split('-')[1];
+    document.getElementById("create-title").innerHTML=`Create for ${name}`;
+}
+//register liked phrases before change to other character view
+async function register_likes(){
+    //debugger;
+    var liked_phrases = Array.prototype.slice.call(document.querySelectorAll("img[name=liked]"));
+    if(liked_phrases.length != 0){
+        liked_phrases = liked_phrases.map((p) =>{
+            return parseInt(p.id.split('-')[1]);
+        });
+        var params ={
+            method: "PUT",
+            body : JSON.stringify(liked_phrases),
+            headers: { "Content-Type": "application/json; charset=utf-8","Authorization":`Bearer ${jwt}`}
+        };
+        var characterId = document.getElementById("component-aux").innerHTML.split('-')[0];
+        var response = await fetch(`${baseurl}/api/character/${characterId}/phrase/like`,params);
+        try {
+            if(response.status == 200){
+                var json = await response.json();
+                if(Boolean(json)){
+                    console.log('The likes was registered.');
+                }
+                else{
+                    console.log('Something happend, the likes was not registered');
+                }
+            }
+            else{
+                throw new error(await response.text());
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+}
+//show visible changes after push the like button
+function like_phrase(phraseId){
+    //debugger;
+    var logo = document.getElementById(`likelogo-${phraseId}`);
+    var button = document.getElementById(`likebutton-${phraseId}`);
+    var texto = document.getElementById(`textlikes-${phraseId}`);
+    if(logo.name === "none"){
+        logo.src = "../imgs/logo-nonlike.png";
+        logo.name = "liked";
+        button.style.backgroundColor = "#a2e0ff";
+        texto.textContent = `${parseInt(texto.textContent)+1} likes`;
+    }
+    else{
+        if(logo.name === "liked"){
+            logo.src = "../imgs/logo-like.png";
+            logo.name = "none";
+            button.style.backgroundColor = "";
+            texto.textContent = `${parseInt(texto.textContent)-1} likes`;
+        }
+    }
+};
+//delete phrase
 async function fetch_delete(idphrase){
     //debugger;
     const baseurl = "https://localhost:44319";
@@ -127,7 +211,7 @@ async function fetch_delete(idphrase){
     var id = event.target.id;
     id = parseInt(id.split('-')[1]);
 
-    var params = { method: "DELETE"};
+    var params = { method: "DELETE", headers:{"Authorization":`Bearer ${jwt}`}};
     var response = await fetch(`${baseurl}/api/character/${id}/phrase/${idphrase}`,params);
     try {
         if(response.status == 200){
@@ -147,17 +231,14 @@ async function fetch_delete(idphrase){
         console.error(error.message);
     }
 }
-function fillTitle(){   
-    var name = document.getElementById("component-aux").innerHTML.split('-')[1];
-    document.getElementById("create-title").innerHTML=`Create for ${name}`;
-}
+
 async function fetch_update(idchar){
     const baseurl = "https://localhost:44319";
     const event = window.event;
     event.preventDefault();
     var id = event.target.id;
     id = parseInt(id.split('-')[1]);
-    debugger;
+    //debugger;
     var frm = document.getElementById(`updatefrm-${id}`);
     var data = {
         Content : frm.content.value.length != 0? frm.content.value:null,
@@ -167,7 +248,7 @@ async function fetch_update(idchar){
     var params = {
         method : "PUT",
         body : JSON.stringify(data),
-        headers: { "Content-Type": "application/json; charset=utf-8" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Authorization":`Bearer ${jwt}` }
     };
     var response = await fetch(`${baseurl}/api/character/${parseInt(idchar)}/phrase/${id}`, params);
     try {
@@ -214,9 +295,9 @@ async function fetch_create(){
     var params = {
         method : "POST",
         body : JSON.stringify(data),
-        headers: { "Content-Type": "application/json; charset=utf-8" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Authorization":`Bearer ${jwt}` }
     };
-    debugger;
+    //debugger;
     var characterId = document.getElementById("component-aux").innerHTML.split('-')[0];
     var response = await fetch(`${baseurl}/api/character/${characterId}/phrase`, params);
     try {

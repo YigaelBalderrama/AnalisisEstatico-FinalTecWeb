@@ -97,6 +97,19 @@ namespace SimpsonApp.Services
             return true;
         }
 
-        
+        public async Task<bool> addLikes(int characID, List<int> listPhrasesId)
+        {
+            await validateCharacter(characID);
+            for (int i = 0; i < listPhrasesId.Count; i++){
+                await GetphraseAsync(characID, listPhrasesId[i]);
+            }
+            await _libraryRepository.addLikesAsync(listPhrasesId);
+            var saveRestul = await _libraryRepository.SaveChangesAsync();
+            if (!saveRestul)
+            {
+                throw new Exception("Error while saving.");
+            }
+            return true;
+        }
     }
 }

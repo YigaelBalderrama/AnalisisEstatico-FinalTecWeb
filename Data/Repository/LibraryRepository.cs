@@ -76,13 +76,13 @@ namespace SimpsonApp.Data.Repository
         {
             if (charId == 0)
             {
-                IQueryable<PhraseEntity> query = _dbContext.Phrases;
+                IQueryable<PhraseEntity> query = _dbContext.Phrases.Include(p => p.Character);
                 query = query.AsNoTracking();
                 return await query.ToArrayAsync();
             }
             else
             {
-                IQueryable<PhraseEntity> query = _dbContext.Phrases.Where(p => p.Character.ID == charId);
+                IQueryable<PhraseEntity> query = _dbContext.Phrases.Where(p => p.Character.ID == charId).Include(p => p.Character);
                 query = query.AsNoTracking();
                 return await query.ToArrayAsync();
             }
@@ -123,6 +123,7 @@ namespace SimpsonApp.Data.Repository
 
         public void CreatePhrase(PhraseEntity frase)
         {
+            frase.Likes = 0;
             if (frase.Character!= null)
             {
                 _dbContext.Entry(frase.Character).State = EntityState.Unchanged;
@@ -134,6 +135,20 @@ namespace SimpsonApp.Data.Repository
         {
             var PhraseToDelete = new PhraseEntity() { ID = PhraseID };
             _dbContext.Entry(PhraseToDelete).State = EntityState.Deleted;
+            return true;
+        }
+
+        public async Task<bool> addLikesAsync(List<int> listPhrasesId)
+        {
+            PhraseEntity frase = null;
+            var new_frase = frase;
+            for (int i=0; i<listPhrasesId.Count; i++)
+            {
+                frase = await _dbContext.Phrases.FirstOrDefaultAsync(p => listPhrasesId[i] == p.ID);
+                new_frase = frase;
+                new_frase.Likes++;
+                _dbContext.Entry(frase).CurrentValues.SetValues(new_frase);
+            }
             return true;
         }
     }

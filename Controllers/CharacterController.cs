@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SimpsonApp.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
@@ -20,6 +20,7 @@ namespace SimpsonApp.Controllers
         {
             this._characterService = characterservice;
         }
+        [Authorize]
         [HttpGet("phrases")]
         public async Task<ActionResult<IEnumerable<Phrase>>> getPhrases()
         {
@@ -53,6 +54,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something go Wrong {ex.Message}");
             }
         }
+        [Authorize]
         [HttpGet("{charId:int}", Name = "GetCharacter")]
         public async Task<ActionResult<Character>> GetCharacter(int charId, bool showPhrases = false)
         {
@@ -69,6 +71,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        [Authorize]
         [HttpPut("{charId:int}")]
        public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
         {
@@ -93,6 +96,7 @@ namespace SimpsonApp.Controllers
                 return BadRequest(ModelState);
             }
         }
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Character>> CreateCharacterAsync([FromBody] Character charac)
         {
@@ -112,6 +116,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
+        [Authorize]
         [HttpDelete("{charID:int}")]
         public async Task<ActionResult<DeleteModel>> DeleteCharacterAsync(int charID)
         {

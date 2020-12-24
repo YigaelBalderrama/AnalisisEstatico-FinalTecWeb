@@ -17,6 +17,8 @@ namespace SimpsonApp.Models
         public int? Season { get; set; }
         [StringLength(7,ErrorMessage = "Error {0} the max leng is{1} min lenght is {2}", MinimumLength = 3)]
         public string Popularity { get; set; }
+        [Range(0, 999, ErrorMessage = "number of Likes can't be negative or greater than 999")]
+        public int? Likes { get; set; }
         public int CharacterID { get; set; }
     }
 }
