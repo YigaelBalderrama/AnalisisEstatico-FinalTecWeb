@@ -17,17 +17,17 @@ namespace SimpsonApp.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
 
-            modelBuilder.Entity<CharacterEntity>().ToTable("Characters");
-            modelBuilder.Entity<CharacterEntity>().Property(c => c.ID).ValueGeneratedOnAdd();
-            modelBuilder.Entity<CharacterEntity>().HasMany(c => c.Phrases).WithOne(v => v.Character);
+            builder.Entity<CharacterEntity>().ToTable("Characters");
+            builder.Entity<CharacterEntity>().Property(c => c.ID).ValueGeneratedOnAdd();
+            builder.Entity<CharacterEntity>().HasMany(c => c.Phrases).WithOne(v => v.Character);
 
-            modelBuilder.Entity<PhraseEntity>().ToTable("Phrases");
-            modelBuilder.Entity<PhraseEntity>().Property(v => v.ID).ValueGeneratedOnAdd();
-            modelBuilder.Entity<PhraseEntity>().HasOne(v => v.Character).WithMany(c => c.Phrases);
+            builder.Entity<PhraseEntity>().ToTable("Phrases");
+            builder.Entity<PhraseEntity>().Property(v => v.ID).ValueGeneratedOnAdd();
+            builder.Entity<PhraseEntity>().HasOne(v => v.Character).WithMany(c => c.Phrases);
         }
 
 
