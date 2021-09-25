@@ -64,7 +64,7 @@ namespace SimpsonApp.Controllers
             }
             catch (NotFoundOperationException ex)
             {
-                return NotFound(ex.Message); ;
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -126,7 +126,7 @@ namespace SimpsonApp.Controllers
             }
             catch (NotFoundOperationException ex)
             {
-                return NotFound(ex.Message); ;
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
