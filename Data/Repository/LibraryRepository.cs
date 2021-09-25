@@ -66,8 +66,8 @@ namespace SimpsonApp.Data.Repository
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Console.WriteLine(ex);
+                throw;
             }
 
         }
