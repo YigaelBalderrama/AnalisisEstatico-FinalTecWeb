@@ -15,7 +15,7 @@ namespace SimpsonApp.Controllers
     [Route("api/character/{characterID:int}/[controller]")]
     public class PhraseController : ControllerBase
     {
-        private IPhraseService _phraseService;
+        private readonly IPhraseService _phraseService;
         public PhraseController(IPhraseService phraseService)
         {
             _phraseService = phraseService;

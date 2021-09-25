@@ -15,7 +15,7 @@ namespace SimpsonApp.Controllers
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
-        private ICharacterService _characterService;
+        private readonly ICharacterService _characterService;
         public CharacterController(ICharacterService characterservice)
         {
             this._characterService = characterservice;
