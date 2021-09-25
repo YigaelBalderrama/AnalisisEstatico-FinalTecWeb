@@ -9,7 +9,7 @@ namespace SimpsonApp.Data.Repository
 {
     public class LibraryRepository : ILibraryRepository
     {
-        private LibraryDbContext _dbContext;
+        private readonly LibraryDbContext _dbContext;
         public LibraryRepository(LibraryDbContext dbContext)
         {
            _dbContext = dbContext;
@@ -66,8 +66,8 @@ namespace SimpsonApp.Data.Repository
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Console.WriteLine(ex);
+                throw;
             }
 
         }

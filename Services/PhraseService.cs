@@ -13,8 +13,8 @@ namespace SimpsonApp.Services
 {
     public class PhraseService : IPhraseService
     {
-        private IMapper _mapper;
-        private ILibraryRepository _libraryRepository;
+        private readonly IMapper _mapper;
+        private readonly ILibraryRepository _libraryRepository;
         public PhraseService(IMapper mapper, ILibraryRepository libraryRepository)
         {
             _mapper = mapper;

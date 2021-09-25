@@ -13,9 +13,9 @@ namespace SimpsonApp.Services
 {
     public class CharacterService : ICharacterService
     {
-        private ILibraryRepository _libraryRepository;
-        private IMapper _mapper;
-        private HashSet<string> allowedOrderByParameters = new HashSet<string>()
+        private readonly ILibraryRepository _libraryRepository;
+        private readonly IMapper _mapper;
+        private readonly HashSet<string> allowedOrderByParameters = new HashSet<string>()
         {
             "id","name","age"
         };

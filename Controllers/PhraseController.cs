@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace SimpsonApp.Controllers
     [Route("api/character/{characterID:int}/[controller]")]
     public class PhraseController : ControllerBase
     {
-        private IPhraseService _phraseService;
+        private readonly IPhraseService _phraseService;
         public PhraseController(IPhraseService phraseService)
         {
             _phraseService = phraseService;
@@ -59,7 +60,8 @@ namespace SimpsonApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Phrase>> CreatePhraseAsync(int characterID, [FromBody] Phrase phrase)
         {
-            if (validateModelFields().Count() == 0)
+            var validator = new ModelsValidator();
+            if (!validator.validateModelFields(ModelState, true).Any())
             {
                 try
                 {
@@ -84,7 +86,8 @@ namespace SimpsonApp.Controllers
         [HttpPut("{phraseID:int}")]
         public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
         {
-            if (validateModelFields(true).Count() == 0)
+            var validator = new ModelsValidator();
+            if (!validator.validateModelFields(ModelState, true).Any())
             {
                 try
                 {
@@ -139,31 +142,7 @@ namespace SimpsonApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Something happend: {ex.Message}");
             }
         }
-
-        public List<string> validateModelFields( bool updateMode = false)
-        {
-            var ret = new List<string>();
-            if (!ModelState.IsValid)
-            {
-                foreach (var par in ModelState)
-                {
-                    if (par.Value.Errors.Count != 0)
-                    {
-                        string clar = "";
-                        foreach (var err in par.Value.Errors)
-                        {
-                            if (!(err.ErrorMessage == "Required" && updateMode))
-                            {
-                                clar += err.ErrorMessage + ", ";
-                            }
-                        }
-                        if (clar != "")
-                            ret.Add($"{par.Key} -> ({clar})");
-                    }
-                }
-            }
-            return ret;
-        }
+        
     }
     
 }
