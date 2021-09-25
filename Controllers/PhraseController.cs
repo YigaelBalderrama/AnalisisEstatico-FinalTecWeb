@@ -154,7 +154,7 @@ namespace SimpsonApp.Controllers
                         {
                             if (!(err.ErrorMessage == "Required" && updateMode))
                             {
-                                clar = String.Concat(clar,", "); 
+                                clar = String.Concat(clar, err.ErrorMessage, ", ");
                             }
                         }
                         if (clar != "")
