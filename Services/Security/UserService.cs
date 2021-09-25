@@ -162,42 +162,46 @@ namespace SimpsonApp.Services.Security
                     IsSuccess = false
                 };
             }
-
-            var user = await userManager.FindByIdAsync(model.UserId);
-            if (role == null)
+            else
             {
-                return new UserManagerResponse
+                var user = await userManager.FindByIdAsync(model.UserId);
+                if (user == null)
                 {
-                    Message = "user does not exist",
-                    IsSuccess = false
-                };
-            }
+                    return new UserManagerResponse
+                    {
+                        Message = "user does not exist",
+                        IsSuccess = false
+                    };
+                }
 
-            if (await userManager.IsInRoleAsync(user, role.Name))
-            {
-                return new UserManagerResponse
+                if (await userManager.IsInRoleAsync(user, role.Name))
                 {
-                    Message = "user has role already",
-                    IsSuccess = false
-                };
-            }
-
-            var result = await userManager.AddToRoleAsync(user, role.Name);
-
-            if (result.Succeeded)
-            {
-                return new UserManagerResponse
+                    return new UserManagerResponse
+                    {
+                        Message = "user has role already",
+                        IsSuccess = false
+                    };
+                }
+                else
                 {
-                    Message = "Role assigned",
-                    IsSuccess = true
-                };
-            }
+                    var result = await userManager.AddToRoleAsync(user, role.Name);
 
-            return new UserManagerResponse
-            {
-                Message = "something went wrong",
-                IsSuccess = false
-            };
+                    if (result.Succeeded)
+                    {
+                        return new UserManagerResponse
+                        {
+                            Message = "Role assigned",
+                            IsSuccess = true
+                        };
+                    }
+
+                    return new UserManagerResponse
+                    {
+                        Message = "something went wrong",
+                        IsSuccess = false
+                    };
+                }
+            }
         }
     }
 }

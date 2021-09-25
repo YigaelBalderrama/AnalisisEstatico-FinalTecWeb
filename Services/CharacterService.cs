@@ -87,12 +87,10 @@ namespace SimpsonApp.Services
 
             var saveResult = await _libraryRepository.SaveChangesAsync();
 
-            if (!saveResult || !DeleteResult)
+            if (!DeleteResult)
             {
                 throw new Exception("Database Error");
             }
-
-
             if (saveResult)
             {
                 return new DeleteModel()
@@ -106,7 +104,7 @@ namespace SimpsonApp.Services
                 return new DeleteModel()
                 {
                     IsSuccess = saveResult,
-                    Message = "The character was not removed."
+                    Message = "The character was not removed, Check Database State"
                 };
             }
             
