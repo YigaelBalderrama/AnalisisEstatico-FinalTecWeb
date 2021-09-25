@@ -20,14 +20,7 @@ namespace SimpsonApp.Data
                 .ForMember(des => des.Character, opt => opt.MapFrom(scr => new CharacterEntity { ID = scr.CharacterID }))
                 .ReverseMap()
                 .ForMember(dest => dest.CharacterID, opt => opt.MapFrom(scr => scr.Character.ID));
-            //this.CreateMap<Camp, CampModel>()
-            //  .ForMember(c => c.Venue, o => o.MapFrom(m => m.Location.VenueName))
-            //  .ReverseMap();
 
-            //this.CreateMap<Talk, TalkModel>()
-            //  .ReverseMap()
-            //  .ForMember(t => t.Camp, opt => opt.Ignore())
-            //  .ForMember(t => t.Speaker, opt => opt.Ignore());
         }
     }
 }
