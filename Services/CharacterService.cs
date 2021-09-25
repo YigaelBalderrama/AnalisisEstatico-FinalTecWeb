@@ -29,7 +29,7 @@ namespace SimpsonApp.Services
             var character = await _libraryRepository.GetPhrasesAsync();
             return _mapper.Map<IEnumerable<Phrase>>(character);
         }
-        public async Task<IEnumerable<Character>> getCharacters(string orderBy, bool showPrase)
+        public async Task<IEnumerable<Character>> getCharacters(string orderBy, bool showPrase = false)
         {
             if (!allowedOrderByParameters.Contains(orderBy.ToLower()))
             {
