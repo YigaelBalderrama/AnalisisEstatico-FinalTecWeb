@@ -30,3 +30,4 @@ obj/
 msbuild.log
 msbuild.err
 msbuild.wrn
+.sonarqube/

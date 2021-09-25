@@ -63,7 +63,7 @@ namespace SimpsonApp.Services
             var saveRestul = await _libraryRepository.SaveChangesAsync();
             if (!saveRestul)
             {
-                throw new Exception("Error while saving.");
+                throw new DatabaseException("Error while saving.");
             }
             return true;
         }
@@ -77,7 +77,7 @@ namespace SimpsonApp.Services
             var saveResult = await _libraryRepository.SaveChangesAsync();
             if (!saveResult)
             {
-                throw new Exception("save error");
+                throw new DatabaseException("Save error");
             }
 
             var modelToReturn = _mapper.Map<Phrase>(chrac);
@@ -92,7 +92,7 @@ namespace SimpsonApp.Services
             var saveRestul = await _libraryRepository.SaveChangesAsync();
             if (!saveRestul)
             {
-                throw new Exception("Error while saving.");
+                throw new DatabaseException("Error while saving.");
             }
             return true;
         }
@@ -107,7 +107,7 @@ namespace SimpsonApp.Services
             var saveRestul = await _libraryRepository.SaveChangesAsync();
             if (!saveRestul)
             {
-                throw new Exception("Error while saving.");
+                throw new DatabaseException("Error while saving.");
             }
             return true;
         }

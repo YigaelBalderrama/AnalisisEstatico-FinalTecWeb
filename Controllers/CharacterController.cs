@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using SimpsonApp.Exceptions;
+using SimpsonApp.Models;
+using SimpsonApp.Services;
+using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using SimpsonApp.Models;
-using SimpsonApp.Exceptions;
-using SimpsonApp.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SimpsonApp.Controllers
 {
-    
+
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace SimpsonApp.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Character>>> getCharacters(bool showPrase=false,string orderBy="ID")
+        public async Task<ActionResult<IEnumerable<Character>>> getCharacters(bool showPrase = false, string orderBy = "ID")
         {
             try
             {
@@ -65,7 +65,7 @@ namespace SimpsonApp.Controllers
             }
             catch (NotFoundOperationException ex)
             {
-                return NotFound(ex.Message); ;
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace SimpsonApp.Controllers
         }
         [Authorize]
         [HttpPut("{charId:int}")]
-       public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
+        public async Task<IActionResult> UpdateCharacter(int charId, [FromBody] Character c)
         {
             var validator = new ModelsValidator();
             if (!validator.validateModelFields(ModelState, true).Any())
@@ -125,7 +125,7 @@ namespace SimpsonApp.Controllers
             }
             catch (NotFoundOperationException ex)
             {
-                return NotFound(ex.Message); ;
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
