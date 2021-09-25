@@ -26,6 +26,7 @@ build/
 bld/
 bin/
 obj/
+.sonarqube/
 msbuild.log
 msbuild.err
 msbuild.wrn
