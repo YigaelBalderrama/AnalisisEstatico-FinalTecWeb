@@ -111,13 +111,5 @@ namespace SimpsonApp.Services
             }
             
         }
-        private async Task validateCharacter(int charID)
-        {
-            var character = await _libraryRepository.GetCharacterAsync(charID);
-            if (character == null)
-            {
-                throw new NotFoundOperationException($"the character id:{charID}, does not exist");
-            }
-        }
     }
 }
