@@ -59,7 +59,7 @@ namespace SimpsonApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Phrase>> CreatePhraseAsync(int characterID, [FromBody] Phrase phrase)
         {
-            if (validateModelFields().Count() == 0)
+            if (validateModelFields().Count == 0)
             {
                 try
                 {
@@ -84,7 +84,7 @@ namespace SimpsonApp.Controllers
         [HttpPut("{phraseID:int}")]
         public async Task<ActionResult<Phrase>> UpdatePhraseAsync(int characterID, int phraseID, [FromBody] Phrase Frase)
         {
-            if (validateModelFields(true).Count() == 0)
+            if (validateModelFields(true).Count == 0)
             {
                 try
                 {
