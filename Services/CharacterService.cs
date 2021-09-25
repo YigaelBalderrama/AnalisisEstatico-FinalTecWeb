@@ -60,7 +60,7 @@ namespace SimpsonApp.Services
 
             if (!saveResult)
             {
-                throw new Exception("Database Error");
+                throw new DatabaseException("Database Error");
             }
             return await GetCharacterAsync(charId);
         }
@@ -76,7 +76,7 @@ namespace SimpsonApp.Services
                 return _mapper.Map<Character>(characEntity);
             }
 
-            throw new Exception("Database Error");
+            throw new DatabaseException("Database Error");
         }
 
         public async Task<DeleteModel> DeleteCharacterAsync(int characID)
@@ -89,7 +89,7 @@ namespace SimpsonApp.Services
 
             if (!DeleteResult)
             {
-                throw new Exception("Database Error");
+                throw new DatabaseException("Database Error");
             }
             if (saveResult)
             {

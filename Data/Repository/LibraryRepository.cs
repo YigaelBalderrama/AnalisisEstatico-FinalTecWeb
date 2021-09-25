@@ -140,8 +140,7 @@ namespace SimpsonApp.Data.Repository
 
         public async Task<bool> addLikesAsync(List<int> listPhrasesId)
         {
-            PhraseEntity frase = null;
-            var new_frase = frase;
+            PhraseEntity frase = null, new_frase;
             for (int i=0; i<listPhrasesId.Count; i++)
             {
                 frase = await _dbContext.Phrases.FirstOrDefaultAsync(p => listPhrasesId[i] == p.ID);

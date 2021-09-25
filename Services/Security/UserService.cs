@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using SimpsonApp.Exceptions;
 
 namespace SimpsonApp.Services.Security
 {
@@ -86,7 +87,7 @@ namespace SimpsonApp.Services.Security
         {
             if (model == null)
             {
-                throw new NullReferenceException("model is null");
+                throw new NotModelException("model is null");
             }
 
             if (model.Password != model.ConfirmPassword)

@@ -76,7 +76,7 @@ namespace SimpsonApp.Controllers
        public async Task<IActionResult> UpdateCharacter(int charId,[FromBody]Character c)
         {
             var clarifications = validateModelFields(true);
-            if (clarifications.Count() == 0)
+            if (clarifications.Count == 0)
             {
                 try
                 {
