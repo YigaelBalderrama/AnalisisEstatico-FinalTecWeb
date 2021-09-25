@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Security.Permissions;
+using System.Runtime.Serialization;
 namespace SimpsonApp.Exceptions
 {
-    public class NotFoundOperationException:Exception
+    [Serializable]
+    public class NotFoundOperationException : Exception
     {
-        public NotFoundOperationException(string message)
-            :base(message)
+        protected NotFoundOperationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
 
         }
+        public NotFoundOperationException(string message): base(message)
+        {
+
+        }
+
     }
 }

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Security.Permissions;
+using System.Runtime.Serialization;
 namespace SimpsonApp.Exceptions
 {
-    public class BadRequestOperationException:Exception
+    [Serializable]
+    public class BadRequestOperationException : Exception
     {
-        public BadRequestOperationException(string message)
-            :base(message)
+        protected BadRequestOperationException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+
+        }
+        public BadRequestOperationException(string message) : base(message)
         {
 
         }

@@ -107,8 +107,6 @@ namespace SimpsonApp.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                var url = HttpContext.Request.Host;
                 var newCharacter = await _characterService.CreateCharacterAsync(charac);
                 return CreatedAtRoute("GetCharacter", new { charId = newCharacter.ID }, newCharacter);
             }
