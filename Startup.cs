@@ -48,7 +48,7 @@ namespace SimpsonApp
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
+                c.AddPolicy("AllowOrigin", builder => builder.WithOrigins("http://localhost:3000"));
             });
 
             //Identity config
@@ -85,11 +85,11 @@ namespace SimpsonApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(options => { options.AllowAnyOrigin(); options.AllowAnyMethod(); options.AllowAnyHeader(); });
+            app.UseCors(options => { options.WithOrigins("http://localhost:3000"); });
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+             
             app.UseAuthentication();
             app.UseAuthorization();
 
